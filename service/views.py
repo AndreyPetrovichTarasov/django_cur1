@@ -44,6 +44,8 @@ from .forms import RecipientForm
 #         recipient = get_object_or_404(Recipient, pk=pk)
 #         recipient.delete()
 #         return redirect('recipient_list')
+
+
 class HomeView(TemplateView):
     template_name = 'service/base.html'
 
@@ -53,6 +55,7 @@ class RecipientListView(View):
     def recipient_list(request):
         recipients = Recipient.objects.all()
         return render(request, 'recipient_list.html', {'recipients': recipients})
+
 
 class RecipientCreateView(View):
 
