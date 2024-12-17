@@ -1,8 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
 from django.views import generic, View
 
+from user.models import User
 from .forms import MessageForm, RecipientForm, MailingForm
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
@@ -70,11 +72,13 @@ class MessageList(generic.ListView):
     template_name = 'service/message_list.html'
     context_object_name = 'messages'
 
+
 class MessageCreate(generic.CreateView, LoginRequiredMixin):
     model = Message
     form_class = MessageForm
     template_name = 'service/message_form.html'
     success_url = reverse_lazy('service:message_list')
+
 
 class MessageUpdate(generic.UpdateView, LoginRequiredMixin):
     model = Message
@@ -125,8 +129,6 @@ class MailingDeleteView(LoginRequiredMixin, DeleteView):
     def test_func(self):
         product = self.get_object()
         return self.request.user == product.owner or self.request.user.is_staff
-
-
 
 
 class SendNewsletterView(View):
@@ -183,6 +185,7 @@ class UserNewsletterView(View):
         # Код для создания новой рассылки
         pass
 
+
 class UserClientView(View):
     def get(self, request):
         clients = Client.objects.filter(user=request.user)
@@ -190,11 +193,14 @@ class UserClientView(View):
 
 
 # Представление для менеджеров
-@method_decorator(user_is_manager, name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class ManagerDashboardView(View):
     def get(self, request):
         clients = Client.objects.all()
         newsletters = Newsletter.objects.all()
         users = User.objects.all()
-        return render(request, 'manager_dashboard.html', {'clients': clients, 'newsletters': newsletters, 'users': users})
-
+        return render(request, 'manager_dashboard.html', {
+            'clients': clients,
+            'newsletters': newsletters,
+            'users': users
+        })@method_decorator(login_required, name='dispatch')

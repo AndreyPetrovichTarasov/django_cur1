@@ -13,7 +13,7 @@ class Command(BaseCommand):
                 send_mail(
                     message.subject,
                     message.body,
-                    'dolmatova3010@yandex.ru',
+                    'lacryk@yandex.ru',
                     [recipient.email],
                     fail_silently=False,
                 )

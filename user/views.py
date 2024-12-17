@@ -8,7 +8,7 @@ from django.views import View
 from django.views.generic import CreateView, FormView, TemplateView
 
 from .forms import UserRegisterForm, PasswordResetForm
-from .models import User, EmailCampaign
+from .models import User
 
 
 class UserCreateView(CreateView):
@@ -25,7 +25,7 @@ class UserCreateView(CreateView):
     def send_welcome_email(self, user_email):
         subject = 'Добро пожаловать в наш сервис'
         message = 'Спасибо, что зарегистрировались в нашем сервисе!'
-        from_mail = 'dolmatova3010@yandex.ru'
+        from_mail = 'lacryk@yandex.ru'
         recipient_list = [user_email]
         send_mail(subject, message, from_mail, recipient_list)
 

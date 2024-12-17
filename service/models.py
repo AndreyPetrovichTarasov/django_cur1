@@ -61,8 +61,6 @@ class MailingAttempt(models.Model):
         return f"Попытка рассылки: {self.status} - {self.attempt_time}"
 
 
-
-
 class SendAttempt(models.Model):
     STATUS_CHOICES = [
         ('Успешно', 'Успешно'),
@@ -77,6 +75,7 @@ class SendAttempt(models.Model):
 class Client(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
+
 
 class Newsletter(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
